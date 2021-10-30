@@ -5,26 +5,15 @@ package com.tutort.dsa;
  */
 public class Q7_MaxProfit2 {
 	public int maxProfit(int[] prices) {
-		int length = prices.length;
-		int maxProfit = 0;
-
-		for (int i = 0; i < length; i++) {
-			for (int j = i + 1; j < length; j++) {
-				int high = j;
-				if (prices[i] > prices[j]) {
-					break;
-				} else {
-					if (prices[j] > prices[high]) {
-						high = j;
-						continue;
-					} else {
-						maxProfit = maxProfit + (prices[high] - prices[i]);
-						i = high;
-					}
-				}
-			}
-		}
-
-		return maxProfit;
-	}
+        int length = prices.length;
+        int maxProfit = 0;
+        
+        for (int i = length - 1 ; i > 0 ; i--){
+           if(prices[i] > prices[i-1]){
+               maxProfit = maxProfit + (prices[i] - prices[i-1]);
+           }
+        }
+        
+        return maxProfit; 
+    }
 }

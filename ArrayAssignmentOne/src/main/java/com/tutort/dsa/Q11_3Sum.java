@@ -4,65 +4,36 @@ import java.util.*;
 
 public class Q11_3Sum {
 	public List<List<Integer>> threeSum(int[] nums) {
-		Set<List<Integer>> set = new HashSet<List<Integer>>();
 		int length = nums.length;
-		Map<Integer, Integer> hashMap = new HashMap<>();
+		Arrays.sort(nums);
 
-		// handle if length is less than 3
-		if (nums.length < 3) {
-			return new ArrayList<List<Integer>>();
-		}
+		List<List<Integer>> result = new LinkedList<>();
+		for (int i = 0; i < length - 2; i++) {
+			if (i == 0 || (i > 0 && nums[i] != nums[i - 1])) {
+				int low = i + 1, high = length - 1, sum = 0 - nums[i];
 
-		// record frequency of elements in hashmap
-		for (int i = 0; i < length; i++) {
-			if (hashMap.containsKey(nums[i])) {
-				hashMap.put(nums[i], hashMap.get(nums[i]) + 1);
-			} else {
-				hashMap.put(nums[i], 1);
-			}
-		}
+				while (low < high) {
+					if (nums[low] + nums[high] == sum) {
+						result.add(Arrays.asList(nums[i], nums[low], nums[high]));
 
-		for (int i = 0; i < length; i++) {
-			// remove current ith element from hashmap or reduce frequency
-			if (hashMap.containsKey(nums[i]) && hashMap.get(nums[i]) > 1) {
-				hashMap.put(nums[i], hashMap.get(nums[i]) - 1);
-			} else {
-				hashMap.remove(nums[i]);
-			}
-
-			for (int j = i+1; j < length; j++) {
-				// remove current jth element from hashmap or reduce frequency
-				if (hashMap.containsKey(nums[j]) && hashMap.get(nums[j]) > 1) {
-					hashMap.put(nums[j], hashMap.get(nums[j]) - 1);
-				} else {
-					hashMap.remove(nums[j]);
-				}
-
-				int diff = -(nums[i] + nums[j]);
-
-				if (hashMap.containsKey(diff)) {
-					List<Integer> resultList = new ArrayList<Integer>(Arrays.asList(nums[i], nums[j], diff));
-					Collections.sort(resultList);
-					set.add(resultList);
-				}
-
-				// add current jth element back to hashmap or increase frequency
-				if (hashMap.containsKey(nums[j]) && hashMap.get(nums[j]) > 0) {
-					hashMap.put(nums[j], hashMap.get(nums[j]) + 1);
-				} else {
-					hashMap.put(nums[j], 1);
+						while (low < high && nums[low] == nums[low + 1]) {
+							low++;
+						}
+						while (low < high && nums[high] == nums[high - 1]) {
+							high--;
+						}
+						
+						low++;
+						high--;
+					} else if (nums[low] + nums[high] < sum) {
+						low++;
+					} else {
+						high--;
+					}
 				}
 			}
-
-			// add current ith element back to hashmap or increase frequency
-			if (hashMap.containsKey(nums[i]) && hashMap.get(nums[i]) > 0) {
-				hashMap.put(nums[i], hashMap.get(nums[i]) + 1);
-			} else {
-				hashMap.put(nums[i], 1);
-			}
-
 		}
 
-		return new ArrayList<List<Integer>>(set);
+		return result;
 	}
 }

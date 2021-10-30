@@ -11,15 +11,17 @@ import java.util.*;
 public class Q4_PascalTriangle {
 	public List<List<Integer>> generate(int numRows) {
         List<List<Integer>> result = new ArrayList<List<Integer>>();
-
+        
         for(int i = 1; i <=numRows ; i++){
             if(i == 1){
                 result.add(new ArrayList<Integer>(Arrays.asList(1)));
             }else if (i == 2){
                 result.add(new ArrayList<Integer>(Arrays.asList(1 , 1)));
             }else {
-                List<Integer> currentRow = new ArrayList<Integer>(Arrays.asList(1 , 1));
+                List<Integer> currentRow = new ArrayList<>();
+                currentRow.add(1);
                 currentRow.addAll(1 , getPrevRowSums(result.get(i - 2)));
+                currentRow.add(1);
                 result.add(currentRow);
             }
         }

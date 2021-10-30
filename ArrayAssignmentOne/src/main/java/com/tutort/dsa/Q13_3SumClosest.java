@@ -1,20 +1,36 @@
 package com.tutort.dsa;
 
+import java.util.Arrays;
+
 /*
  * https://leetcode.com/problems/3sum-closest
  */
 public class Q13_3SumClosest {
 	public int threeSumClosest(int[] nums, int target) {
 		int length = nums.length;
-		int closest = Integer.MAX_VALUE;
+		int diff = Integer.MAX_VALUE;
+
+		Arrays.sort(nums);
 		int result = 0;
-		for (int i = 0; i < length; i++) {
-			for (int j = i + 1; j < length; j++) {
-				for (int k = j + 1; k < length; k++) {
-					int diff = Math.abs((nums[i] + nums[j] + nums[k]) - target);
-					if (closest > diff) {
-						closest = diff;
-						result = (nums[i] + nums[j] + nums[k]);
+		for (int i = 0; i < length - 2; i++) {
+			if (i == 0 || (i > 0 && nums[i] != nums[i - 1])) {
+				int low = i + 1, high = length - 1;
+
+				while (low < high) {
+
+					int sum = nums[i] + nums[low] + nums[high];
+
+					if (sum > target) {
+						high--;
+					} else if (sum < target) {
+						low++;
+					} else {
+						return target;
+					}
+
+					if (Math.abs(target - sum) < diff) {
+						result = sum;
+						diff = Math.abs(target - sum);
 					}
 				}
 			}

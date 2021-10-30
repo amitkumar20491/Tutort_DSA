@@ -16,7 +16,7 @@ public class Q1_TwoSum {
 			if (hashMap.containsKey(target - nums[i])) {
 				return new int[] { i, hashMap.get(target - nums[i]) };
 			}
-
+ 
 			hashMap.put(nums[i], i);
 		}
 
