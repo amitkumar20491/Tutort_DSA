@@ -7,82 +7,42 @@ import java.util.*;
  */
 public class Q14_4Sum {
 	public List<List<Integer>> fourSum(int[] nums, int target) {
-		Set<List<Integer>> set = new HashSet<List<Integer>>();
-		int length = nums.length;
-		Map<Integer, Integer> hashMap = new HashMap<>();
-
-		// handle if length is less than 3
-		if (nums.length < 4) {
-			return new ArrayList<List<Integer>>();
-		}
-
-		// record frequency of elements in hashmap
-		for (int i = 0; i < length; i++) {
-			if (hashMap.containsKey(nums[i])) {
-				hashMap.put(nums[i], hashMap.get(nums[i]) + 1);
-			} else {
-				hashMap.put(nums[i], 1);
-			}
-		}
-
-		for (int i = 0; i < length; i++) {
-			// remove current ith element from hashmap or reduce frequency
-			if (hashMap.containsKey(nums[i]) && hashMap.get(nums[i]) > 1) {
-				hashMap.put(nums[i], hashMap.get(nums[i]) - 1);
-			} else {
-				hashMap.remove(nums[i]);
-			}
-
-			for (int j = i + 1; j < length; j++) {
-				// remove current jth element from hashmap or reduce frequency
-				if (hashMap.containsKey(nums[j]) && hashMap.get(nums[j]) > 1) {
-					hashMap.put(nums[j], hashMap.get(nums[j]) - 1);
-				} else {
-					hashMap.remove(nums[j]);
-				}
-
-				for (int k = j + 1; k < length; k++) {
-					// remove current jth element from hashmap or reduce frequency
-					if (hashMap.containsKey(nums[k]) && hashMap.get(nums[k]) > 1) {
-						hashMap.put(nums[k], hashMap.get(nums[k]) - 1);
-					} else {
-						hashMap.remove(nums[k]);
-					}
-
-					int diff = target - (nums[i] + nums[j] + nums[k]);
-
-					if (hashMap.containsKey(diff)) {
-						List<Integer> resultList = new ArrayList<Integer>(
-								Arrays.asList(nums[i], nums[j], nums[k], diff));
-						Collections.sort(resultList);
-						set.add(resultList);
-					}
-
-					// add current kth element back to hashmap or increase frequency
-					if (hashMap.containsKey(nums[k]) && hashMap.get(nums[k]) > 0) {
-						hashMap.put(nums[k], hashMap.get(nums[k]) + 1);
-					} else {
-						hashMap.put(nums[k], 1);
-					}
-				}
-
-				// add current jth element back to hashmap or increase frequency
-				if (hashMap.containsKey(nums[j]) && hashMap.get(nums[j]) > 0) {
-					hashMap.put(nums[j], hashMap.get(nums[j]) + 1);
-				} else {
-					hashMap.put(nums[j], 1);
-				}
-			}
-
-			// add current ith element back to hashmap or increase frequency
-			if (hashMap.containsKey(nums[i]) && hashMap.get(nums[i]) > 0) {
-				hashMap.put(nums[i], hashMap.get(nums[i]) + 1);
-			} else {
-				hashMap.put(nums[i], 1);
-			}
-
-		}
-
-		return new ArrayList<List<Integer>>(set);
-	}
+		ArrayList<List<Integer>> res = new ArrayList<List<Integer>>();
+        if(nums == null || nums.length == 0)
+            return res;
+            
+        int n = nums.length;
+        Arrays.sort(nums);
+        
+        for(int i=0; i<n; i++){
+            for(int j=i+1; j<n; j++){
+                int target2 = target - nums[j] - nums[i];
+                int front = j+1;
+                int back = n - 1;
+                
+                while(front < back){
+                    int two_sum = nums[front] + nums[back];
+                    if(two_sum < target2) front++;
+                    else if (two_sum > target2) back--;
+                    else {
+                        List<Integer> quad = new ArrayList();
+                        quad.add(nums[i]);
+                        quad.add(nums[j]);
+                        quad.add(nums[front]);
+                        quad.add(nums[back]);
+                        res.add(quad);
+                        
+                        while(front < back && nums[front] == quad.get(2)) ++front;
+                        
+                        while(front < back && nums[back] == quad.get(3)) --back;
+                    }
+                }
+                
+                while(j + 1 < n && nums[j+1] == nums[j]) ++j;
+            }
+            while(i + 1 < n && nums[i+1] == nums[i]) ++i;
+            
+        }
+        return res;
+    }
 }
