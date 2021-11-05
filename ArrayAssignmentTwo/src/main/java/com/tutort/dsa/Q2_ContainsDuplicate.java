@@ -1,14 +1,18 @@
 package com.tutort.dsa;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /*
  * https://leetcode.com/problems/contains-duplicate/
  */
 public class Q2_ContainsDuplicate {
 	public boolean containsDuplicate(int[] nums) {
-		Set<Integer> set = new HashSet<>(Arrays.stream(nums).boxed().collect(Collectors.toList()));
+		Set<Integer> set = new HashSet<>();
+
+		for (int i = 0; i < nums.length; i++) {
+			set.add(nums[i]);
+		}
+
 		if (nums.length != set.size()) {
 			return true;
 		} else {
