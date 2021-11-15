@@ -3,7 +3,7 @@ package com.tutort.dsa;
 /*
  * https://leetcode.com/problems/valid-tic-tac-toe-state
  */
-public class Q14_ValidTicTacToeState {
+public class Q13_ValidTicTacToeState {
 	int x;
 	int o;
 
