@@ -1,7 +1,5 @@
 package com.tutort.dsa;
 
-import java.util.*;
-
 /*
  * https://leetcode.com/problems/remove-zero-sum-consecutive-nodes-from-linked-list/
  */
