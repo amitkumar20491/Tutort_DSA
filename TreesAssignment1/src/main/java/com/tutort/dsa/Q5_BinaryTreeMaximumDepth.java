@@ -3,7 +3,7 @@ package com.tutort.dsa;
 /*
  * https://leetcode.com/problems/maximum-depth-of-binary-tree 
  */
-public class Q4_BinaryTreeMaximumDepth {
+public class Q5_BinaryTreeMaximumDepth {
 	int max = 0;
     public int maxDepth(TreeNode root) {
         findDepth(root , 1);
